@@ -26,7 +26,7 @@
 
 .header {
   border: solid var(--border-color) 2px;
-  height: 370px;
+  padding: clamp(122px, calc(119.091px + 0.909vw), 130px) 0;
   margin-top: 97px;
   border-width: 2px;
   background-color: var(--block-bg-color);
@@ -85,8 +85,6 @@
 .label {
   position: absolute;
   color: var(--border-color);
-  -webkit-text-stroke: 1px var(--text-stroke-color);
-  text-stroke: 1px var(--text-stroke-color);
   top: 32px;
   right: 25px;
   opacity: 0.5;
@@ -94,14 +92,16 @@
   font-weight: 400;
   font-size: 14px;
   mix-blend-mode: hard-light;
-  z-index: 2;
+  z-index: 2;/
+  text-shadow: 0 0 4px var(--accent-color);
 }
 
-@supports not ((text-stroke: 1px black) or (-webkit-text-stroke: 1px black)) {
+@supports ((-webkit-text-stroke: 1px black) or (text-stroke: 1px black)) {
   .label {
-    text-shadow: 0 0 4px var(--accent-color);
+    -webkit-text-stroke: 1px var(--text-stroke-color);
+    text-stroke: 1px var(--text-stroke-color);
+    text-shadow: none;
   }
-}
 
 .image {
   height: auto;
@@ -206,6 +206,13 @@
   box-shadow: 2px 2px 0 var(--border-color);
 }
 
+.card__like-button {
+  max-width: 130px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .button__text {
   font-family: var(--accent-font);
   font-weight: 400;
@@ -271,9 +278,6 @@
 }
 
 @media (width <=375px) {
-  .header {
-    height: 327px;
-  }
 
   .card__list-button {
     flex-direction: column;
@@ -291,9 +295,14 @@
     width: 27px;
     height: 27px;
   }
+
   .dialog[open] {
     width: 341px;
     padding: 30px 40px;
+  }
+
+  .dialog[open] .dialog__content {
+    gap: 16px;
   }
 }
 
@@ -302,6 +311,7 @@
   padding: 0;
   background: transparent;
   border: 2px solid transparent;
+  display: flex;
 }
 
 .card__icon-button:focus {
