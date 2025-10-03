@@ -8,100 +8,64 @@
 ✦ button__text — для обозначения текстового элемента внутри кнопки
 */
 
- /* --- БАЗА --- */
-
-/* Искры по умолчанию скрыты; анимацию будем подставлять через переменную */
 .sparks {
   opacity: 0;
   animation: var(--sparks-anim, none);
 }
 
-/* Переходы задаём на реальных путях внутри <symbol> */
 .heart .contour {
   fill: var(--contour-color);
-  /* По умолчанию быстрый возврат: 0.1s linear, без задержки */
   transition: fill var(--contour-duration, 0.1s) linear var(--contour-delay, 0s);
 }
 
 .heart .core {
-  /* По умолчанию прозрачная сердцевина */
   fill: var(--core-color);
-  /* 0.3s linear с задержкой 0.03s */
   transition: fill 0.3s linear var(--core-delay, 0.03s);
 }
 
 .heart .main-body {
-  /* По умолчанию прозрачное основное тело */
   fill: var(--main-body-color);
-  /* 0.3s linear без задержки */
   transition: fill 0.3s linear var(--body-delay, 0s);
 }
 
-/* Масштабирование будем применять к самому <svg> */
 .like-icon {
   transform-origin: center;
 }
 
-/* --- :HOVER --- */
-/* На хосте меняем только переменные: заливка проявляется последовательно */
 .like-icon:hover {
   --core-color: var(--contour-color);
   --main-body-color: var(--contour-color);
-
-  /* Для hover отменяем задержку у core и задаём 0.05s у main-body */
   --core-delay: 0s;
   --body-delay: 0.05s;
-
-  /* Контур остаётся со своей базовой 0.1s/linear/0s (через переменные по умолчанию) */
 }
 
-/* --- :ACTIVE (зажатие мыши) --- */
-/* Сердцевина и тело становятся красными. Контур не перекрашиваем. */
 .like-icon:active {
   --core-color: var(--animation-fill-color);
   --main-body-color: var(--animation-fill-color);
-
-  /* Задержки как у hover: core 0s, body 0.05s */
   --core-delay: 0s;
   --body-delay: 0.05s;
-
-  /* Контур оставляем базовым: быстрый 0.1s без задержки */
   --contour-duration: 0.1s;
   --contour-delay: 0s;
 }
 
-/* --- КЛИК (класс .is-liked на <svg>) --- */
-/* Внутренности красные с теми же задержками, плюс перекраска контура с особыми таймингами,
-   бамп масштаба и вспышка искр. */
 .like-icon.is-liked {
-  /* 1) core и main-body → красный */
   --core-color: var(--animation-fill-color);
   --main-body-color: var(--animation-fill-color);
   --core-delay: 0s;
   --body-delay: 0.05s;
-
-  /* 2) контур → красный с 0.3s linear и задержкой 0.06s */
   --contour-color: var(--animation-fill-color);
   --contour-duration: 0.3s;
   --contour-delay: 0.06s;
-
-  /* 3) масштабирование всего svg */
   animation: like-bump 0.3s ease-in 0.1s 1 both;
-
-  /* 4) запуск анимации искр через переменную */
   --sparks-anim: sparks-flash 0.3s ease-in 0.3s 1 both;
 }
 
-/* --- KEYFRAMES --- */
-
-/* Лёгкий «бамп» масштаба: 1 → 1.25 → 1 */
 @keyframes like-bump {
   0%   { transform: scale(1); }
   50%  { transform: scale(1.25); }
   100% { transform: scale(1); }
 }
 
-/* Вспышка искр: появление и затухание */
 @keyframes sparks-flash {
   0%   { opacity: 0; }
   20%  { opacity: 1; }
